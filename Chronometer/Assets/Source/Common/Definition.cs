@@ -12,18 +12,18 @@ using System.Collections.Generic;
 
 namespace Chronometer
 {
-    public abstract class Def : ScriptableObject
+    public abstract class Definition : ScriptableObject
     {
         public const ushort MaxDefCount = ushort.MaxValue;
 
-        [Tooltip("Def name used by code")]
-        public string DefName;
+        [Tooltip("Definition name used by code")]
+        public string DefName = "";
 
-        [Tooltip("Def label for ingame inspection")]
-        public string Label;
+        [Tooltip("Definition label for ingame inspection")]
+        public string Label = "";
 
-        [Tooltip("Def description for ingame inspection")]
-        public string Description;
+        [Tooltip("Definition description for ingame inspection")]
+        public string Description = "";
 
         public bool IgnoreErrors = false;
 
@@ -33,6 +33,11 @@ namespace Chronometer
         private static readonly Regex defNameRegex = new Regex("^[a-zA-Z0-9\\-_]*$");
 
         public abstract void ClearCache();
+
+        public void Awake()
+        {
+            Debug.Log("Definition of " + GetType() + " created!");
+        }
 
         public virtual IEnumerable<string> CheckForErrors()
         {

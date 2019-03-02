@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace Chronometer
 {
-    public static class DefDatabase<T> where T : Def, new()
+    public static class DefinitionDictionary<T> where T : Definition, new()
     {
         private static List<T> defsList = new List<T>();
         private static Dictionary<string, T> defsByName = new Dictionary<string, T>();
@@ -29,9 +29,9 @@ namespace Chronometer
 
         public static void Add(T def)
         {
-            if(defsList.Count > Def.MaxDefCount)
+            if(defsList.Count > Definition.MaxDefCount)
             {
-                Debug.LogError("Too many " + typeof(T) + ", over " + Def.MaxDefCount);
+                Debug.LogError("Max index reached " + typeof(T) + ", over " + Definition.MaxDefCount);
                 return;
             }
 

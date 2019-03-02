@@ -11,7 +11,7 @@ using UnityEngine;
  * 
  *              -   Batch inserting.
  *              
- * Test         -   Performance and error.          
+ * Test         -   Performance, error and edge-case behaviour.          
  */
 
 namespace Chronometer
