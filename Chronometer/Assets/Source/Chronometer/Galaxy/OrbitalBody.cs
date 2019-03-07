@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Chronometer
 {
-    public class OrbitalBody : PriorityQueueNode
+    public class OrbitalBody
     {
         public OrbitalBody ParentOrbital;
+        public List<OrbitalBody> childOrbitals;
 
         public string Name;
 
@@ -14,5 +16,10 @@ namespace Chronometer
         public double A;
         public double B;
         public Vector3 Position;
+
+        public OrbitalBody()
+        {
+            childOrbitals = new List<OrbitalBody>();
+        }
     }
 }

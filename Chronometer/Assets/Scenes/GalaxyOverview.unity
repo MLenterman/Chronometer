@@ -481,7 +481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StarPrefab: {fileID: 7059616976517052337, guid: 783c30d2165039e43a8da5ebff65026a,
     type: 3}
-  SolarSystemCount: 50000
+  SolarSystemCount: 7500
   Seed: 200
   GalaxyRadius: 80000
   Camera: {fileID: 265757568}

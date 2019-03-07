@@ -97,14 +97,6 @@ namespace Chronometer
             Debug.Log("Repositionings: " + repositionCounter);
         }
 
-        private HashSet<Star> listForStarsToReposition()
-        {
-            HashSet<Star> repositionSet = new HashSet<Star>();
-
-
-            return repositionSet;
-        }
-
         private Vector3 calcPos(Star star, int pertN, double pertAmp)
         {
             return OrbitalCalculator.Compute(star.Angle, star.A, star.B, star.Theta, new Vector3(0, 0, 0), pertN, pertAmp);

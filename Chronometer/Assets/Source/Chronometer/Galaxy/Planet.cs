@@ -5,6 +5,7 @@ namespace Chronometer
 {
     public class Planet : OrbitalBody
     {
-
+        public float Atmosphere;
+        public float Eccentricity;
     }
 }

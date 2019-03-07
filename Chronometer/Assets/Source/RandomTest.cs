@@ -10,14 +10,15 @@ namespace Chronometer
     public class RandomTest : MonoBehaviour
     {
         private List<GameObject> solarSystems = new List<GameObject>();
+        private List<GameObject> planets = new List<GameObject>();
         private List<GameObject> uiList = new List<GameObject>();
+        private List<GameObject> orbitalDrawers = new List<GameObject>();
 
         public GameObject StarPrefab;
+        public GameObject OrbitPrefab;
         public int SolarSystemCount;
         public int Seed;
         public int GalaxyRadius;
-
-        FixedPriorityQueue<Star> queue = new FixedPriorityQueue<Star>();
 
         public GameObject Camera;
         //public Texture2D MapIcon;
@@ -39,19 +40,38 @@ namespace Chronometer
 
             // GalaxyGenerator
             GalaxyGenerator.GalaxyGenStepsDirty.Add(new GalaxyGenStep_Stars());
+            GalaxyGenerator.GalaxyGenStepsDirty.Add(new GalaxyGenStep_Planets());
             Current.Game.Galaxy = GalaxyGenerator.GenerateGalaxy(Seed);
+
             List<Star> temp = Current.Game.Galaxy.Stars.RetrieveObjectsInArea(new Rect(-320000f, -320000f, 640000f, 640000f));
 
             for (int i = 0; i < temp.Count; i++)
             {
                 solarSystems.Add(Instantiate(StarPrefab, temp[i].Position, StarPrefab.transform.rotation));
-                //uiList.Add(Instantiate(iconPrefab, temp[i].Pos, iconPrefab.transform.rotation));
-                //uiList[i].transform.SetParent(GameObject.Find("MapCanvas").transform);
-                //uiList[i].GetComponent<Image>().color = new Color(255f, 255f, 255f, 255f);
-
                 Color tempColor = Mathf.CorrelatedColorTemperatureToRGB((float)temp[i].Temp);
                 float tempMag = (float)temp[i].Mag;
                 solarSystems[i].GetComponent<SpriteRenderer>().color = new Color(tempColor.r * tempMag, tempColor.g * tempMag, tempColor.b * tempMag, tempColor.a);
+
+                for(int j = 0; j < temp[i].childOrbitals.Count; j++)
+                {
+                    Planet planet = (Planet)temp[i].childOrbitals[j];
+                    GameObject obj = Instantiate(StarPrefab, planet.Position, StarPrefab.transform.rotation);
+                    planets.Add(obj);
+                    obj.transform.SetParent(solarSystems[i].transform);
+                    obj.GetComponent<SpriteRenderer>().color = Color.blue;
+                    Vector3 scale = obj.transform.localScale;
+                    obj.transform.localScale = new Vector3(scale.x * 0.1f, scale.y * 0.1f, scale.z * 0.1f);
+                }
+            }
+
+            for(int i = 0; i < Current.Galaxy.AllPlanets.Count; i++)
+            {
+                GameObject obj = Instantiate(OrbitPrefab, Current.Galaxy.AllPlanets[i].ParentOrbital.Position, OrbitPrefab.transform.rotation);
+                OrbitCircleDrawer orbit = obj.GetComponent<OrbitCircleDrawer>();
+                orbitalDrawers.Add(obj);
+                orbit.Radius = Vector3.Distance(Current.Galaxy.AllPlanets[i].Position, Current.Galaxy.AllPlanets[i].ParentOrbital.Position);
+                orbit.Draw();
+
             }
         }
 
